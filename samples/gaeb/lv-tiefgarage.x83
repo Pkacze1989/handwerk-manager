@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Werkplan GAEB-Teilmenge DA XML, Austauschphase X83 (Angebot). -->
+<GAEB xmlns="http://www.gaeb.de/GAEB_DA_XML/DA83/3.3">
+  <GAEBInfo>
+    <Version>3.3</Version>
+    <VersDate>2019-05</VersDate>
+    <Date>2026-10-01</Date>
+    <ProgSystem>Werkplan</ProgSystem>
+    <ProgName>Werkplan</ProgName>
+  </GAEBInfo>
+  <PrjInfo>
+    <NamePrj>Neubau MFH Johannstadt</NamePrj>
+    <LblPrj>Zusatz Tiefgarage</LblPrj>
+    <Cur>EUR</Cur>
+  </PrjInfo>
+  <Award>
+    <DP>83</DP>
+    <BoQ ID="LV-TG">
+      <BoQInfo>
+        <Name>LV Tiefgarage</Name>
+        <LblBoQ>Leistungsverzeichnis Elektro Tiefgarage</LblBoQ>
+        <Date>2026-10-01</Date>
+      </BoQInfo>
+      <BoQBody>
+        <BoQCtgy ID="01" RNoPart="01">
+          <LblTx>
+            <span>Starkstromanlage</span>
+          </LblTx>
+          <BoQBody>
+            <Itemlist>
+              <Item ID="01.0010" RNoPart="0010">
+                <Qty>24</Qty>
+                <QU>Stk</QU>
+                <Description>
+                  <CompleteText>
+                    <OutlineText>
+                      <OutlTxt>
+                        <TextOutlTxt>
+                          <span>Feuchtraumsteckdose</span>
+                        </TextOutlTxt>
+                      </OutlTxt>
+                    </OutlineText>
+                    <DetailTxt>
+                      <Text>
+                        <span>Feuchtraumsteckdose IP44 setzen und anschließen, inkl. Kleinteile.</span>
+                      </Text>
+                    </DetailTxt>
+                  </CompleteText>
+                </Description>
+                <UP>86.00</UP>
+                <IT>2064.00</IT>
+              </Item>
+              <Item ID="01.0020" RNoPart="0020">
+                <Qty>180</Qty>
+                <QU>m</QU>
+                <Description>
+                  <CompleteText>
+                    <OutlineText>
+                      <OutlTxt>
+                        <TextOutlTxt>
+                          <span>Mantelleitung NYM-J 5x2,5</span>
+                        </TextOutlTxt>
+                      </OutlTxt>
+                    </OutlineText>
+                    <DetailTxt>
+                      <Text>
+                        <span>Mantelleitung auf Pritsche verlegen und befestigen.</span>
+                      </Text>
+                    </DetailTxt>
+                  </CompleteText>
+                </Description>
+                <UP>6.40</UP>
+                <IT>1152.00</IT>
+              </Item>
+              <Item ID="01.0030" RNoPart="0030">
+                <Qty>6</Qty>
+                <QU>Stk</QU>
+                <Description>
+                  <CompleteText>
+                    <OutlineText>
+                      <OutlTxt>
+                        <TextOutlTxt>
+                          <span>LED-Feuchtraumleuchte</span>
+                        </TextOutlTxt>
+                      </OutlTxt>
+                    </OutlineText>
+                    <DetailTxt>
+                      <Text>
+                        <span>Feuchtraumleuchte 1200 mm liefern, montieren und anschließen.</span>
+                      </Text>
+                    </DetailTxt>
+                  </CompleteText>
+                </Description>
+                <UP>149.00</UP>
+                <IT>894.00</IT>
+              </Item>
+            </Itemlist>
+          </BoQBody>
+        </BoQCtgy>
+        <BoQCtgy ID="02" RNoPart="02">
+          <LblTx>
+            <span>Messung</span>
+          </LblTx>
+          <BoQBody>
+            <Itemlist>
+              <Item ID="02.0010" RNoPart="0010">
+                <Qty>1</Qty>
+                <QU>psch</QU>
+                <Description>
+                  <CompleteText>
+                    <OutlineText>
+                      <OutlTxt>
+                        <TextOutlTxt>
+                          <span>Prüfung Tiefgarage</span>
+                        </TextOutlTxt>
+                      </OutlTxt>
+                    </OutlineText>
+                    <DetailTxt>
+                      <Text>
+                        <span>Besichtigung, Messung und Protokoll nach DIN VDE 0100-600.</span>
+                      </Text>
+                    </DetailTxt>
+                  </CompleteText>
+                </Description>
+                <UP>280.00</UP>
+                <IT>280.00</IT>
+              </Item>
+            </Itemlist>
+          </BoQBody>
+        </BoQCtgy>
+      </BoQBody>
+    </BoQ>
+  </Award>
+</GAEB>

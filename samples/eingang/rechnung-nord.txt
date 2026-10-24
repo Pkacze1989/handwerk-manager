@@ -1,0 +1,15 @@
+Eingangsrechnung
+Lieferant: Elektro Großhandel Nord GmbH
+Rechnungsnummer: ER-2026-1182
+Datum: 12.10.2026
+Netto: 1480,50
+MwSt: 281,30
+Brutto: 1761,80
+Währung: EUR
+
+Positionen
+- NYM-J 3x1,5, 800 m
+- Steckdose Schuko UP, 60 Stk
+- LS-Schalter B16, 24 Stk
+
+Bitte auf die Baustelle Johannstadt kontieren.

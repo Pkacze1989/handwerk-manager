@@ -1,0 +1,447 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Company {
+  id                  String @id @default("company")
+  name                String
+  street              String
+  zip                 String
+  city                String
+  phone               String
+  email               String
+  website             String
+  taxNumber           String
+  vatId               String
+  bankName            String
+  iban                String
+  bic                 String
+  tradeRegister       String
+  owner               String
+  datevBerater        String
+  datevMandant        String
+  datevRevenueAccount String @default("8400")
+  datevExpenseAccount String @default("3400")
+  datevBankAccount    String @default("1200")
+  datevAccountLength  Int    @default(4)
+}
+
+model User {
+  id                    String            @id @default(cuid())
+  email                 String            @unique
+  passwordHash          String
+  name                  String
+  role                  String
+  phone                 String?
+  hourlyRate            Float             @default(42)
+  color                 String            @default("#1e4638")
+  active                Boolean           @default(true)
+  createdAt             DateTime          @default(now())
+  times                 TimeEntry[]
+  messages              ChatMessage[]
+  logs                  SiteLog[]
+  instructionsAssigned  WorkInstruction[] @relation("Assignee")
+  instructionsAuthored  WorkInstruction[] @relation("Author")
+  assignments           Assignment[]
+  resource              Resource?
+  crewMemberships       CrewMember[]
+}
+
+model Customer {
+  id         String          @id @default(cuid())
+  number     String          @unique
+  name       String
+  contact    String?
+  street     String?
+  zip        String?
+  city       String?
+  email      String?
+  phone      String?
+  notes      String?
+  vatId      String?
+  leitwegId  String?
+  debtorNo   String?
+  projects   Project[]
+  documents  Document[]
+  receptions ReceptionNote[]
+}
+
+model Supplier {
+  id         String            @id @default(cuid())
+  number     String            @unique
+  name       String
+  contact    String?
+  street     String?
+  zip        String?
+  city       String?
+  email      String?
+  phone      String?
+  creditorNo String?
+  articles   Article[]
+  invoices   IncomingInvoice[]
+}
+
+model Article {
+  id            String    @id @default(cuid())
+  sku           String    @unique
+  name          String
+  unit          String
+  purchasePrice Float
+  salesPrice    Float
+  vatRate       Float     @default(19)
+  supplierId    String?
+  supplier      Supplier? @relation(fields: [supplierId], references: [id])
+  matchTerms    String?
+}
+
+model ServiceItem {
+  id          String @id @default(cuid())
+  code        String @unique
+  name        String
+  description String?
+  unit        String
+  minutes     Float  @default(0)
+  costPrice   Float
+  salesPrice  Float
+  matchTerms  String?
+}
+
+model Project {
+  id           String            @id @default(cuid())
+  number       String            @unique
+  title        String
+  customerId   String
+  customer     Customer          @relation(fields: [customerId], references: [id])
+  status       String
+  street       String?
+  zip          String?
+  city         String?
+  description  String?
+  startDate    DateTime?
+  endDate      DateTime?
+  closedAt     DateTime?
+  createdAt    DateTime          @default(now())
+  documents    Document[]
+  times        TimeEntry[]
+  measurements Measurement[]
+  logs         SiteLog[]
+  photos       SitePhoto[]
+  files        ProjectFile[]
+  emails       ProjectEmail[]
+  messages     ChatMessage[]
+  instructions WorkInstruction[]
+  assignments  Assignment[]
+  invoices     IncomingInvoice[]
+  calcs        Calculation[]
+  receptions   ReceptionNote[]
+  snapshots    CalcSnapshot[]
+}
+
+model Document {
+  id               String         @id @default(cuid())
+  type             String
+  number           String         @unique
+  status           String
+  projectId        String?
+  project          Project?       @relation(fields: [projectId], references: [id])
+  customerId       String
+  customer         Customer       @relation(fields: [customerId], references: [id])
+  date             DateTime
+  serviceDate      DateTime?
+  validUntil       DateTime?
+  dueDate          DateTime?
+  intro            String?
+  outro            String?
+  internalNote     String?
+  taxRate          Float          @default(19)
+  progressPercent  Float?
+  sourceDocumentId String?
+  showPrices       Boolean        @default(true)
+  net              Float          @default(0)
+  tax              Float          @default(0)
+  gross            Float          @default(0)
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  lines            DocumentLine[]
+  payments         Payment[]
+  dunnings         Dunning[]
+  signatures       Signature[]
+}
+
+model DocumentLine {
+  id          String   @id @default(cuid())
+  documentId  String
+  document    Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  position    Int
+  kind        String
+  source      String?
+  sourceId    String?
+  sku         String?
+  title       String
+  description String?
+  quantity    Float    @default(1)
+  unit        String   @default("Stk")
+  unitPrice   Float    @default(0)
+  lineTotal   Float    @default(0)
+}
+
+model Payment {
+  id         String   @id @default(cuid())
+  documentId String
+  document   Document @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  date       DateTime
+  amount     Float
+  method     String
+  note       String?
+}
+
+model Dunning {
+  id         String    @id @default(cuid())
+  documentId String
+  document   Document  @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  level      String
+  fee        Float     @default(0)
+  text       String
+  status     String
+  sentAt     DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model IncomingInvoice {
+  id           String    @id @default(cuid())
+  supplierId   String?
+  supplier     Supplier? @relation(fields: [supplierId], references: [id])
+  supplierName String?
+  projectId    String?
+  project      Project?  @relation(fields: [projectId], references: [id])
+  number       String
+  date         DateTime
+  net          Float
+  tax          Float
+  gross        Float
+  filePath     String?
+  fileName     String?
+  rawText      String?
+  notes        String?
+  status       String
+  createdAt    DateTime  @default(now())
+}
+
+model TimeEntry {
+  id        String    @id @default(cuid())
+  userId    String
+  user      User      @relation(fields: [userId], references: [id])
+  projectId String?
+  project   Project?  @relation(fields: [projectId], references: [id])
+  type      String
+  start     DateTime
+  end       DateTime?
+  note      String?
+}
+
+model Measurement {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title      String
+  kind       String
+  formula    String
+  inputsJson String
+  result     Float
+  unit       String
+  note       String?
+  createdAt  DateTime @default(now())
+}
+
+model SiteLog {
+  id         String      @id @default(cuid())
+  projectId  String
+  project    Project     @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId     String
+  user       User        @relation(fields: [userId], references: [id])
+  date       DateTime
+  kind       String
+  text       String
+  weather    String?
+  materials  String?
+  hours      Float?
+  createdAt  DateTime    @default(now())
+  photos     SitePhoto[]
+  signatures Signature[]
+}
+
+model SitePhoto {
+  id        String   @id @default(cuid())
+  siteLogId String?
+  siteLog   SiteLog? @relation(fields: [siteLogId], references: [id], onDelete: Cascade)
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  path      String
+  fileName  String
+  caption   String?
+}
+
+model Signature {
+  id         String    @id @default(cuid())
+  documentId String?
+  document   Document? @relation(fields: [documentId], references: [id], onDelete: Cascade)
+  siteLogId  String?
+  siteLog    SiteLog?  @relation(fields: [siteLogId], references: [id], onDelete: Cascade)
+  signerName String
+  role       String?
+  dataUrl    String
+  signedAt   DateTime  @default(now())
+}
+
+model ProjectFile {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  kind      String
+  name      String
+  path      String
+  mime      String?
+  createdAt DateTime @default(now())
+}
+
+model ProjectEmail {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  direction String
+  fromAddr  String
+  toAddr    String
+  subject   String
+  body      String
+  sentAt    DateTime
+}
+
+model ChatMessage {
+  id        String   @id @default(cuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  body      String
+  imagePath String?
+  imageName String?
+  mentions  String?
+  createdAt DateTime @default(now())
+}
+
+model WorkInstruction {
+  id         String    @id @default(cuid())
+  projectId  String
+  project    Project   @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  assigneeId String
+  assignee   User      @relation("Assignee", fields: [assigneeId], references: [id])
+  authorId   String
+  author     User      @relation("Author", fields: [authorId], references: [id])
+  title      String
+  body       String
+  materials  String
+  status     String
+  dueDate    DateTime?
+  createdAt  DateTime  @default(now())
+}
+
+model Resource {
+  id          String       @id @default(cuid())
+  type        String
+  name        String
+  userId      String?      @unique
+  user        User?        @relation(fields: [userId], references: [id])
+  details     String?
+  assignments Assignment[]
+  members     CrewMember[]
+}
+
+model CrewMember {
+  id     String   @id @default(cuid())
+  crewId String
+  crew   Resource @relation(fields: [crewId], references: [id], onDelete: Cascade)
+  userId String
+  user   User     @relation(fields: [userId], references: [id])
+
+  @@unique([crewId, userId])
+}
+
+model Assignment {
+  id         String   @id @default(cuid())
+  resourceId String
+  resource   Resource @relation(fields: [resourceId], references: [id], onDelete: Cascade)
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  startDate  DateTime
+  endDate    DateTime
+  note       String?
+  userId     String?
+  user       User?    @relation(fields: [userId], references: [id])
+}
+
+model Calculation {
+  id               String     @id @default(cuid())
+  projectId        String
+  project          Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title            String
+  surchargePercent Float      @default(15)
+  marginPercent    Float      @default(10)
+  createdAt        DateTime   @default(now())
+  lines            CalcLine[]
+}
+
+model CalcLine {
+  id             String      @id @default(cuid())
+  calculationId  String
+  calculation    Calculation @relation(fields: [calculationId], references: [id], onDelete: Cascade)
+  category       String
+  title          String
+  quantity       Float
+  unit           String
+  unitCost       Float
+  surchargePercent Float     @default(0)
+}
+
+model CalcSnapshot {
+  id         String   @id @default(cuid())
+  projectId  String
+  project    Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  takenAt    DateTime @default(now())
+  label      String
+  sollNet    Float
+  istCost    Float
+  invoiced   Float
+  profit     Float
+  detailJson String
+}
+
+model ReceptionNote {
+  id         String    @id @default(cuid())
+  customerId String?
+  customer   Customer? @relation(fields: [customerId], references: [id])
+  projectId  String?
+  project    Project?  @relation(fields: [projectId], references: [id])
+  callerName String
+  phone      String
+  concern    String
+  urgency    String
+  createdAt  DateTime  @default(now())
+  simulated  Boolean   @default(true)
+}
+
+model OutboxMessage {
+  id        String    @id @default(cuid())
+  kind      String
+  toAddr    String
+  subject   String
+  body      String
+  status    String
+  relatedId String?
+  createdAt DateTime  @default(now())
+  sentAt    DateTime?
+}

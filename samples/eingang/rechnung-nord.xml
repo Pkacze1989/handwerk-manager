@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Rechnung>
+  <Lieferant>Leuchtenhaus Proksch</Lieferant>
+  <Rechnungsnummer>LP-2026-077</Rechnungsnummer>
+  <Datum>2026-09-28</Datum>
+  <Netto>860.00</Netto>
+  <MwSt>163.40</MwSt>
+  <Brutto>1023.40</Brutto>
+</Rechnung>

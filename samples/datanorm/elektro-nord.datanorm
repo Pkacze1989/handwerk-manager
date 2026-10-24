@@ -1,0 +1,10 @@
+# Werkplan DATANORM-Auszug (dokumentierte Teilmenge, kein vollständiges DATANORM 4/5)
+# V;Version;Kennzeichen;Lieferant;Währung;Datum TTMMJJJJ
+# A;Kennzeichen;Artikelnummer;Kurztext;Mengeneinheit;EK;VK;MwSt
+# Kennzeichen: N = neu, A = Änderung, L = löschen
+# Dezimaltrennzeichen Komma. Punkte als Tausender sind erlaubt.
+V;050;A;Elektro Großhandel Nord GmbH;EUR;15102026
+A;A;100234;NYM-J 3x1,5 Mantelleitung;M;0,81;1,49;19
+A;A;200110;Steckdose Schuko UP reinweiß;ST;4,55;10,40;19
+A;N;400310;LED-Feuchtraumleuchte 1200mm;ST;21,50;49,00;19
+A;L;509999;Brüstungskanal alt;M;0;0;19
